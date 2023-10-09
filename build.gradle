@@ -19,7 +19,7 @@ plugins {
 }
 
 
-apply plugin: 'groovy'
+
 apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -69,7 +69,6 @@ publishing {
 
 
 configurations {
-    runtime.exclude group: "org.codehaus.groovy", module: "groovy-testng"
 
     all {
         resolutionStrategy {
@@ -94,7 +93,6 @@ repositories {
 
 
 dependencies {
-    def excludeGroovyAll = { exclude group: 'org.codehaus.groovy'}
     implementation localGroovy()
     implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.1.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.1.4'
@@ -107,13 +105,8 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.11.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
-    // mandatory dependencies for using Spock
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M5-groovy-3.0', excludeGroovyAll
-    // optional dependencies for using Spock
     testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.2'         // allows mocking of classes (in addition to interfaces)
-    testImplementation group: 'org.spockframework', name: 'spock-junit4', version: '2.0-M5-groovy-3.0'
-    testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.0-M5-groovy-3.0', excludeGroovyAll
-}
+  }
 
 jacocoTestReport {
     group = "Reporting"
@@ -184,7 +177,7 @@ pitest {
 
 license {
     ext.year = Calendar.getInstance().get(Calendar.YEAR)
-    includes(["**/*.java", "**/*.groovy"])
+    includes(["**/*.java"])
 }
 classes.dependsOn(licenseFormat)
 
